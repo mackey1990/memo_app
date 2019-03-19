@@ -1,0 +1,35 @@
+<%= link_to "メモ新規作成", "/memos/new" %>
+
+<input class="form-control" id="search_word" type="text" placeholder="メモタイトル">
+
+<table class="table table-striped">
+  <thead class="bg-danger text-white">
+    <tr>
+      <th>タイトル</th>
+    </tr>
+  </thead>
+
+  <tbody id="search_table">
+    <% @memos.each do |memo| %>
+    <tr>
+      <td><%= memo.title %></td>
+      <td>
+      <%= link_to "詳細", memo_path(memo), class: "btn btn-primary" %>
+      <%= link_to "編集", edit_memo_path(memo), class: "btn btn-secondary" %>
+      <%= link_to "削除", memo_path(memo), method: :delete, data: { confirm: "本当に削除しますか?" }, class: 'btn btn-danger' %>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function(){
+    $("#search_word").on("keyup", function() {
+      var value = $(this).val().toLowerCase();
+      $("#search_table tr").filter(function() {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
